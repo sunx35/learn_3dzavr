@@ -25,58 +25,65 @@ Vec2D::Vec2D(const Vec4D &point4D) {
 
 Vec2D Vec2D::operator-() const {
     // TODO: implement (lesson 1)
-    return Vec2D();
+    return Vec2D(-x(), -y());
 }
 
 bool Vec2D::operator==(const Vec2D &vec) const {
     // TODO: implement (lesson 1)
-    return true;
+    auto diff = *this - vec;
+    return diff.abs() < Consts::EPS;
 }
 
 bool Vec2D::operator!=(const Vec2D &vec) const {
     // TODO: implement (lesson 1)
-    return true;
+    return !(*this == vec);
 }
 
 Vec2D Vec2D::operator+(const Vec2D &vec) const {
     // TODO: implement (lesson 1)
-    return Vec2D();
+    return Vec2D(x() + vec.x(), y() + vec.y());
 }
 
 Vec2D Vec2D::operator-(const Vec2D &vec) const {
     // TODO: implement (lesson 1)
-    return Vec2D();
+    return Vec2D(x() - vec.x(), y() - vec.y());
 }
 
 Vec2D Vec2D::operator*(double number) const {
     // TODO: implement (lesson 1)
-    return Vec2D();
+    return Vec2D(x() * number, y() * number);
 }
 
 Vec2D Vec2D::operator/(double number) const {
     // TODO: implement (lesson 1)
-    return Vec2D();
+    if (std::abs(number) < Consts::EPS) {
+        throw std::domain_error("Dividing by zero");
+    }
+    return Vec2D(x() / number, y() / number);
 }
 
 // Other useful methods
 double Vec2D::sqrAbs() const {
     // TODO: implement (lesson 1)
-    return 1;
+    return pow(x(), 2) + pow(y(), 2);
 }
 
 double Vec2D::abs() const {
     // TODO: implement (lesson 1)
-    return 1;
+    return sqrt(sqrAbs());
 }
 
 Vec2D Vec2D::normalized() const {
     // TODO: implement (lesson 1)
-    return Vec2D();
+    if (abs() < Consts::EPS) {
+        throw std::domain_error("Dividing by zero");
+    }
+    return Vec2D(x() / abs(), y() / abs());
 }
 
 double Vec2D::dot(const Vec2D &vec) const {
     // TODO: implement (lesson 1)
-    return 0;
+    return x() * vec.x() + y() * vec.y();
 }
 
 bool Vec2D::isNear(double a, double b) {
