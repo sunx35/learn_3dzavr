@@ -25,54 +25,61 @@ Vec4D::Vec4D(const Vec4D &point4D) {
 
 [[nodiscard]] Vec4D Vec4D::operator-() const {
     // TODO: implement (lesson 1)
-    return Vec4D();
+    return Vec4D(-x(), -y(), -z(), -w());
 }
 
 bool Vec4D::operator==(const Vec4D &point4D) const {
     // TODO: implement (lesson 1)
-    return true;
+    auto diff = *this - point4D;
+    return diff.abs() < Consts::EPS;
 }
 
 bool Vec4D::operator!=(const Vec4D &point4D) const {
     // TODO: implement (lesson 1)
-    return true;
+    return !(*this == point4D);
 }
 
 // Operations with Vec4D
 Vec4D Vec4D::operator+(const Vec4D &point4D) const {
     // TODO: implement (lesson 1)
-    return Vec4D();
+    return Vec4D(x() + point4D.x(), y() + point4D.y(), z() + point4D.z(), w() + point4D.w());
 }
 
 Vec4D Vec4D::operator-(const Vec4D &point4D) const {
     // TODO: implement (lesson 1)
-    return Vec4D();
+    return Vec4D(x() - point4D.x(), y() - point4D.y(), z() - point4D.z(), w() - point4D.w());
 }
 
 Vec4D Vec4D::operator*(double number) const {
     // TODO: implement (lesson 1)
-    return Vec4D();
+    return Vec4D(x() * number, y() * number, z() * number, w() * number);
 }
 
 Vec4D Vec4D::operator/(double number) const {
     // TODO: implement (lesson 1)
-    return Vec4D();
+    if (std::abs(number) < Consts::EPS) {
+        throw std::domain_error("Dividing by zero");
+    }
+    return Vec4D(x() / number, y() / number, z() / number, w() / number);
 }
 
 // Other useful methods
 double Vec4D::sqrAbs() const {
     // TODO: implement (lesson 1)
-    return 1;
+    return pow(x(), 2) + pow(y(), 2) + pow(z(), 2) + pow(w(), 2);
 }
 
 double Vec4D::abs() const {
     // TODO: implement (lesson 1)
-    return 1;
+    return sqrt(sqrAbs());
 }
 
 Vec4D Vec4D::normalized() const {
     // TODO: implement (lesson 1)
-    return Vec4D();
+    if (abs() < Consts::EPS) {
+        throw std::domain_error("Dividing by zero");
+    }
+    return Vec4D(x() / abs(), y() / abs(), z() / abs(), w() / abs());
 }
 
 bool Vec4D::isNear(double a, double b) {
