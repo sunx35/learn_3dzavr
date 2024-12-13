@@ -24,10 +24,22 @@ std::vector<Triangle> Camera::project(std::shared_ptr<Mesh> mesh) {
 
     for (auto &t : mesh->triangles()) {
         // TODO: implement (lessons 2, 3, 4)
+        Triangle modelTriangle = t * M;
+
+        double dot = modelTriangle.norm().dot((position() - Vec3D(modelTriangle[0])).normalized());
+
+        if (dot < 0) {
+            continue;
+        }
+
         Triangle projected = t * M * _SP;
         Triangle projected_normalized = Triangle(projected[0] / projected[0].w(),
                                                  projected[1] / projected[1].w(),
-                                                 projected[2] / projected[2].w(), {150, 160, 155});
+                                                 projected[2] / projected[2].w());
+
+        double dotColor = (0.2 * std::abs(dot) + 0.8);
+        projected_normalized.setColor(
+            sf::Color{t.color().r * dotColor, t.color().g * dotColor, t.color().b * dotColor});
 
         _triangles.emplace_back(projected_normalized);
     }
@@ -65,6 +77,12 @@ std::vector<Triangle> Camera::sorted() {
     // Sort _tris from back to front
     // This is some replacement for Z-buffer
     // TODO: implement (lesson 3)
+    std::sort(_triangles.begin(), _triangles.end(), [](Triangle &t1, Triangle &t2) {
+        double z1 = t1[0].z() + t1[1].z() + t1[2].z();
+        double z2 = t2[0].z() + t2[1].z() + t2[2].z();
+
+        return z1 > z2;
+    });
 
     return _triangles;
 }
