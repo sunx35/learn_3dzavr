@@ -134,7 +134,7 @@ std::vector<std::shared_ptr<Mesh>> ResourceManager::loadObjects(const std::strin
         if (line[0] == 'm') {
             // TODO: implement (lesson 3)
             std::string name;
-            uint8_t r, g, b, a;
+            int r, g, b, a;
             s >> junk >> name >> r >> g >> b >> a;
             maters.insert({ name, sf::Color{r, g, b, a} });
         }
@@ -156,7 +156,7 @@ std::vector<std::shared_ptr<Mesh>> ResourceManager::loadObjects(const std::strin
             s >> junk >> matInfo;
 
             std::string colorName = matInfo.substr(matInfo.size() - 3, 3);
-            currentColor = maters.at(colorName);
+            currentColor = maters[colorName];
         }
         if (line[0] == 'o') {
             // TODO: implement (lesson 3)
