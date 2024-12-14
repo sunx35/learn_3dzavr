@@ -32,7 +32,9 @@ std::vector<Triangle> Camera::project(std::shared_ptr<Mesh> mesh) {
             continue;
         }
 
-        Triangle projected = t * M * _SP;
+        Triangle modelViewTriangle = modelTriangle * V;
+
+        Triangle projected = modelViewTriangle * _SP;
         Triangle projected_normalized = Triangle(projected[0] / projected[0].w(),
                                                  projected[1] / projected[1].w(),
                                                  projected[2] / projected[2].w());
